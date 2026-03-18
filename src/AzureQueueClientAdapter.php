@@ -44,7 +44,7 @@ class AzureQueueClientAdapter implements AzureQueueClient
             }
 
             if ($messageTtl !== null) {
-                $options->setMessageTtl($messageTtl);
+                $options->setTimeToLiveInSeconds($messageTtl);
             }
 
             $this->proxy->createMessage($queue, $body, $options);
