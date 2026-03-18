@@ -1,0 +1,65 @@
+{
+    "name": "marmanik/laravel-azure-storage-queue",
+    "description": "Azure Storage Queue driver for Laravel",
+    "keywords": [
+        "laravel",
+        "azure",
+        "queue",
+        "storage",
+        "driver"
+    ],
+    "homepage": "https://github.com/marmanik/laravel-azure-storage-queue",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nikolaos Marmaridis",
+            "email": "marmaridisn@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/contracts": "^11.0|^12.0",
+        "illuminate/queue": "^11.0|^12.0",
+        "illuminate/support": "^11.0|^12.0",
+        "microsoft/azure-storage-queue": "^1.3"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.0",
+        "mockery/mockery": "^1.6",
+        "orchestra/testbench": "^9.0|^10.0",
+        "pestphp/pest": "^3.0",
+        "phpstan/phpstan": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Marmanik\\AzureStorageQueue\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Marmanik\\AzureStorageQueue\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint",
+        "stan": "vendor/bin/phpstan analyse"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Marmanik\\AzureStorageQueue\\AzureStorageQueueServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
