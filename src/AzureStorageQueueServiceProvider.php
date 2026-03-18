@@ -21,13 +21,12 @@ class AzureStorageQueueServiceProvider extends ServiceProvider
 
     private function registerQueueDriver(): void
     {
-        // Use callAfterResolving so the driver is registered even if QueueManager
-        // was already resolved before this provider booted.
-        $this->callAfterResolving(QueueManager::class, static function (QueueManager $manager): void {
-            // extend() registers a connector factory: a zero-argument closure that
-            // returns a ConnectorInterface. QueueManager calls it with no arguments
-            // and then calls ->connect($config) on the result itself.
-            $manager->extend('azure-storage-queue', static function (): AzureStorageQueueConnector {
+        // Use resolving() so the connector is registered whenever QueueManager
+        // is resolved — same pattern used by mongodb/laravel-mongodb.
+        // addConnector() stores a zero-argument factory that returns a
+        // ConnectorInterface; QueueManager calls it and then ->connect($config).
+        $this->app->resolving('queue', function (QueueManager $manager): void {
+            $manager->addConnector('azure-storage-queue', static function (): AzureStorageQueueConnector {
                 return new AzureStorageQueueConnector;
             });
         });
