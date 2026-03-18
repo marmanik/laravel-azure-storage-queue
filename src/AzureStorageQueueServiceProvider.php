@@ -24,13 +24,11 @@ class AzureStorageQueueServiceProvider extends ServiceProvider
         // Use callAfterResolving so the driver is registered even if QueueManager
         // was already resolved before this provider booted.
         $this->callAfterResolving(QueueManager::class, static function (QueueManager $manager): void {
-            // Do NOT use static here: QueueManager::extend() calls bindTo() on the
-            // closure to rebind it to the QueueManager instance so $config arrives
-            // correctly as a parameter. A static closure blocks bindTo() on PHP 8.2
-            // and causes the closure to be invoked with 0 arguments.
-            // We never reference $this inside, so rebinding is harmless.
-            $manager->extend('azure-storage-queue', function (array $config): AzureStorageQueue {
-                return (new AzureStorageQueueConnector)->connect($config);
+            // extend() registers a connector factory: a zero-argument closure that
+            // returns a ConnectorInterface. QueueManager calls it with no arguments
+            // and then calls ->connect($config) on the result itself.
+            $manager->extend('azure-storage-queue', static function (): AzureStorageQueueConnector {
+                return new AzureStorageQueueConnector;
             });
         });
     }
