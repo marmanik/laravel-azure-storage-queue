@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Marmanik\AzureStorageQueue;
 
-use Illuminate\Contracts\Queue\Queue;
 use Illuminate\Queue\Connectors\ConnectorInterface;
 use Marmanik\AzureStorageQueue\Contracts\AzureQueueClient;
 
@@ -16,7 +15,7 @@ use Marmanik\AzureStorageQueue\Contracts\AzureQueueClient;
  */
 class AzureStorageQueueConnector implements ConnectorInterface
 {
-    public function connect(array $config): Queue
+    public function connect(array $config): AzureStorageQueue
     {
         $client = $this->buildClient($config);
 
